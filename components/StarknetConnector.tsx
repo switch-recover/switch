@@ -1,14 +1,17 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useConnectors, useStarknet } from "@starknet-react/core"
-import { ConnectorOverlay } from "../components"
-import { shortenAddress } from "../utils/shortenAddress"
+import { ConnectorOverlay } from "components"
+import { shortenAddress } from "utils/shortenAddress"
 
-const Connect = () => {
+const StarknetConnector = () => {
     const [open, setOpen] = useState(false)
     const [hover, setHover] = useState(false)
     const { account } = useStarknet()
+    const { connect, connectors, disconnect } = useConnectors()
 
-    const { disconnect } = useConnectors()
+    useEffect(() => {
+        if (connectors) connect(connectors[0])
+    }, [])
 
     return (
         <div className="w-36 h-11 rounded-full flex justify-center items-center">
@@ -53,4 +56,4 @@ const Connect = () => {
     )
 }
 
-export default Connect
+export default StarknetConnector
