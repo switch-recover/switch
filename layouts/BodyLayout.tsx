@@ -20,14 +20,14 @@ const BodyLayout = ({ path, children }: any) => {
                         )
                     } else {
                         return (
-                            <>
-                                <Link href={p.path} key={i}>
+                            <span key={i}>
+                                <Link href={p.path}>
                                     <span className="cursor-pointer text-gray-400 hover:text-gray-700 active:text-gray-400 select-none">
                                         {p.name}
                                     </span>
                                 </Link>
                                 <span className="text-gray-400 px-1.5 select-none">{"►"}</span>
-                            </>
+                            </span>
                         )
                     }
                 })}
