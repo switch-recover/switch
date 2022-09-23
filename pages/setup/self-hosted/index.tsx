@@ -18,10 +18,12 @@ const SelfHostedRecovery = () => {
                         title="Self hosted recovery"
                         description={[
                             "You will need to nominate an address to receive your assets in case you ever lose your account. This could be an address owned by someone you trust, for example, a close family member.",
-                            <br />,
-                            <br />,
+                            <br key={1} />,
+                            <br key={2} />,
                             "Alternatively, you can setup a password now and specify the address later. Be careful, though. ",
-                            <strong>If you forget your password, you will not be able to recover your assets.</strong>,
+                            <strong key={3}>
+                                If you forget your password, you will not be able to recover your assets.
+                            </strong>,
                         ]}
                     />
                     <DialogButton

@@ -20,13 +20,13 @@ const SetInactivity = () => {
                         title="Enable recovery address"
                         description={[
                             "To enable the recovery service, we will deploy a recovery smart contract that is used to return your assets in case your account is lost.",
-                            <br />,
-                            <br />,
+                            <br key={1} />,
+                            <br key={2} />,
                             "The contract works as follows: it monitors your account for inactivity (meaning a lack of outgoing transactions from your account). Once the set inactivity period has passed, your account will be marked as inactive and you can initiate the recovery process.",
-                            <br />,
-                            <br />,
+                            <br key={3} />,
+                            <br key={4} />,
                             "In other words, the inactivity period is the length of time you must wait before you can recover your assets (measured from the moment you lose your account). ",
-                            <strong>
+                            <strong key={5}>
                                 But beware, an inactivity period that is too short could mean accidentally triggering
                                 account recovery simply because you have not used your account recently.
                             </strong>,

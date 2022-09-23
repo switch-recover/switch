@@ -42,7 +42,7 @@ const FormElement = ({ fields, nextPageRoute }: { fields: Array<fieldProps>; nex
     return (
         <form onSubmit={(e) => submitForm(e)}>
             <div className="flex w-full px-6 py-6 justify-between rounded-xl bg-white gap-12 mx-2">
-                <div className="flex flex-col w-full gap-2">
+                <div className="flex flex-col w-full gap-5">
                     {fields && formData ? (
                         fields.map((fd: fieldProps, i: number) => {
                             return (
