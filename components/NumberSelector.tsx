@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { useRouter } from "next/router"
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { FormEvent, useContext, useState } from "react"
@@ -39,7 +40,13 @@ const NumberSelector = ({ id, placeholder, nextPageRoute }: NumberSelectorProps)
                     </div>
                 </div>
             </div>
-            <div className="w-full text-right text-xs font-semibold mt-4 text-gray-400">Continue (Enter ⏎)</div>
+            <Link href={nextPageRoute}>
+                <a>
+                    <div className="w-full text-right text-xs font-semibold mt-4 cursor-pointer text-gray-400 hover:text-gray-800">
+                        Continue (Enter ⏎)
+                    </div>
+                </a>
+            </Link>
         </form>
     )
 }

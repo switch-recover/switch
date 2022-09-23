@@ -1,6 +1,7 @@
 import { FormDataContext, IFormDataContext, ISetContractContext, recoveryOptions } from "pages/_app"
 import { FormEvent, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
+import Link from "next/link"
 
 type fieldProps = {
     id: string
@@ -66,7 +67,13 @@ const FormElement = ({ fields, nextPageRoute }: { fields: Array<fieldProps>; nex
                     )}
                 </div>
             </div>
-            <div className="w-full text-right text-xs font-semibold mt-4 text-gray-400">Continue (Enter ⏎)</div>
+            <Link href={nextPageRoute}>
+                <a>
+                    <div className="w-full text-right text-xs font-semibold mt-4 cursor-pointer text-gray-400 hover:text-gray-800">
+                        Continue (Enter ⏎)
+                    </div>
+                </a>
+            </Link>
         </form>
     )
 }
