@@ -1,4 +1,4 @@
-import { MenuBar, TitleDescription, TextForm } from "components"
+import { MenuBar, TitleDescription, RecoveryAddressForm } from "components"
 import { BodyLayout } from "layouts"
 
 const NominateRecoveryAddress = () => {
@@ -7,14 +7,6 @@ const NominateRecoveryAddress = () => {
         { name: "Setup a new wallet", path: "/setup" },
         { name: "Self hosted recovery", path: "/setup/self-hosted" },
         { name: "Nominate a recovery address", path: "/setup/self-hosted/nominate" },
-    ]
-
-    const formFields = [
-        {
-            id: "recoveryAddress",
-            label: "Recovery address",
-            placeholder: "0x123...456",
-        },
     ]
 
     return (
@@ -27,7 +19,7 @@ const NominateRecoveryAddress = () => {
                         title="Nominate a recovery address"
                         description="This is the address where you assets will be sent if you lose your account. You can change this address later, but it will cost you some gas fees to do so."
                     />
-                    <TextForm fields={formFields} nextPageRoute="/setup/self-hosted/nominate/set-inactivity" />
+                    <RecoveryAddressForm nextPageRoute="/setup/self-hosted/nominate/set-inactivity" />
                 </BodyLayout>
             </div>
         </div>

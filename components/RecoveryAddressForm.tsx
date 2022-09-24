@@ -1,26 +1,21 @@
-import Link from "next/link"
-import { useRouter } from "next/router"
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { FormEvent, useContext, useRef, useState } from "react"
+import { useRouter } from "next/router"
+import Link from "next/link"
+import { TextFormField } from "components"
 
-type NumberSelectorProps = {
-    id: string
-    placeholder: number
-    nextPageRoute: string
-}
-
-const NumberSelector = ({ id, placeholder, nextPageRoute }: NumberSelectorProps) => {
-    const [amount, setAmount] = useState<number>(placeholder)
+const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const { context, setContext } = useContext(FormDataContext) as ISetContractContext
+    const [address, setAddress] = useState<string>("")
     const router = useRouter()
     const formRef = useRef<HTMLFormElement>(null)
 
     const submitForm = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!amount) return
+        if (!address) return
         setContext({
             ...context,
-            [id]: amount,
+            recoveryAddress: address,
         })
         router.push(nextPageRoute)
     }
@@ -40,17 +35,13 @@ const NumberSelector = ({ id, placeholder, nextPageRoute }: NumberSelectorProps)
             }}
         >
             <div className="flex w-full px-6 py-6 justify-between rounded-xl bg-white gap-12 mx-2">
-                <div className="flex flex-col w-full gap-2">
-                    <div className="flex flex-col w-full gap-2">
-                        <label className="text-xs font-semibold">Inactivity period (days)</label>
-                        <input
-                            autoFocus
-                            type="number"
-                            className="w-full bg-gray-100 px-3 py-1 rounded-md outline-none text-gray-800"
-                            value={amount}
-                            onChange={(e) => setAmount(Number(e.target.value))}
-                        />
-                    </div>
+                <div className="flex flex-col w-full gap-5">
+                    <TextFormField
+                        label="Recovery address"
+                        placeholder="0x123...456"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                    />
                 </div>
             </div>
             <div
@@ -63,4 +54,4 @@ const NumberSelector = ({ id, placeholder, nextPageRoute }: NumberSelectorProps)
     )
 }
 
-export default NumberSelector
+export default RecoveryAddressForm
