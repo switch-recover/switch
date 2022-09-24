@@ -1,4 +1,4 @@
-import { MenuBar, TitleDescription, FormElement } from "components"
+import { MenuBar, PasswordEntry, TitleDescription } from "components"
 import { BodyLayout } from "layouts"
 
 const SetPassword = () => {
@@ -27,15 +27,11 @@ const SetPassword = () => {
                             "Make sure you choose something secure that you will remember in a few years’ time.",
                         ]}
                     />
-                    <PasswordEntry />
+                    <PasswordEntry nextPageRoute="/setup/self-hosted/password/set-inactivity" />
                 </BodyLayout>
             </div>
         </div>
     )
-}
-
-const PasswordEntry = () => {
-    return <></>
 }
 
 export default SetPassword

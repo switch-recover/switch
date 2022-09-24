@@ -15,12 +15,12 @@ export type IFormDataContext = {
     recoveryAddress?: string
     inactivityPeriodInDays?: number
     passwordHash?: string
-    firstNameHash?: string
-    lastNameHash?: string
-    dateOfBirthHash?: string
-    countryOfOriginHash?: string
-    legalDocumentTypeHash?: string
-    legalDocumentNumberHash?: string
+    firstName?: string
+    lastName?: string
+    dateOfBirth?: string
+    countryOfOrigin?: string
+    legalDocumentType?: string
+    legalDocumentNumber?: string
 }
 
 export enum recoveryOptions {

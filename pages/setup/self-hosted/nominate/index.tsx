@@ -1,4 +1,4 @@
-import { MenuBar, TitleDescription, FormElement } from "components"
+import { MenuBar, TitleDescription, TextForm } from "components"
 import { BodyLayout } from "layouts"
 
 const NominateRecoveryAddress = () => {
@@ -27,7 +27,7 @@ const NominateRecoveryAddress = () => {
                         title="Nominate a recovery address"
                         description="This is the address where you assets will be sent if you lose your account. You can change this address later, but it will cost you some gas fees to do so."
                     />
-                    <FormElement fields={formFields} nextPageRoute="/setup/self-hosted/set-inactivity" />
+                    <TextForm fields={formFields} nextPageRoute="/setup/self-hosted/nominate/set-inactivity" />
                 </BodyLayout>
             </div>
         </div>

@@ -1,15 +1,18 @@
 import { MenuBar, NumberSelector, TitleDescription } from "components"
 import { BodyLayout } from "layouts"
 
-const SetInactivity = () => {
-    const pathObject = [
-        { name: "Home", path: "/welcome" },
-        { name: "Setup a new wallet", path: "/setup" },
-        { name: "Self hosted recovery", path: "/setup/self-hosted" },
-        { name: "Nominate a recovery address", path: "/setup/self-hosted/nominate" },
-        { name: "Enable recovery service", path: "/setup/self-hosted/set-inactivity" },
-    ]
+type pathObjectProp = {
+    name: string
+    path: string
+}
 
+const SetInactivityContainer = ({
+    pathObject,
+    nextPageRoute,
+}: {
+    pathObject: Array<pathObjectProp>
+    nextPageRoute: string
+}) => {
     return (
         <div className="flex flex-col w-screen h-screen bg-gray-200">
             <MenuBar />
@@ -32,15 +35,11 @@ const SetInactivity = () => {
                             </strong>,
                         ]}
                     />
-                    <NumberSelector
-                        id="inactivityPeriodInDays"
-                        placeholder={365}
-                        nextPageRoute="/setup/self-hosted/review"
-                    />
+                    <NumberSelector id="inactivityPeriodInDays" placeholder={365} nextPageRoute={nextPageRoute} />
                 </BodyLayout>
             </div>
         </div>
     )
 }
 
-export default SetInactivity
+export default SetInactivityContainer

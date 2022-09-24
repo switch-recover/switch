@@ -1,7 +1,8 @@
-import { FormDataContext, IFormDataContext, ISetContractContext, recoveryOptions } from "pages/_app"
+import { FormDataContext, ISetContractContext } from "pages/_app"
 import { FormEvent, useContext, useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import Link from "next/link"
+import { TextFormField } from "components"
 
 type fieldProps = {
     id: string
@@ -14,7 +15,7 @@ type formDataProps = {
     [index: string]: string
 }
 
-const FormElement = ({ fields, nextPageRoute }: { fields: Array<fieldProps>; nextPageRoute: string }) => {
+const TextForm = ({ fields, nextPageRoute }: { fields: Array<fieldProps>; nextPageRoute: string }) => {
     const { context, setContext } = useContext(FormDataContext) as ISetContractContext
     const [formData, setFormData] = useState<formDataProps>()
     const router = useRouter()
@@ -47,19 +48,13 @@ const FormElement = ({ fields, nextPageRoute }: { fields: Array<fieldProps>; nex
                     {fields && formData ? (
                         fields.map((fd: fieldProps, i: number) => {
                             return (
-                                <div key={i} className="flex flex-col w-full gap-2">
-                                    <label className="text-xs font-semibold">{fd.label}</label>
-                                    <input
-                                        type="text"
-                                        placeholder={fd.placeholder}
-                                        className="w-full bg-gray-100 px-3 py-1 rounded-md outline-none text-gray-800"
-                                        value={formData[fields[i].id]}
-                                        onChange={(e) => {
-                                            e.preventDefault()
-                                            setFormData({ ...formData, [fields[i].id]: e.target.value })
-                                        }}
-                                    />
-                                </div>
+                                <TextFormField
+                                    key={i}
+                                    label={fd.label}
+                                    placeholder={fd.placeholder}
+                                    value={formData[fields[i].id]}
+                                    onChange={(e: any) => setFormData({ ...formData, [fields[i].id]: e.target.value })}
+                                />
                             )
                         })
                     ) : (
@@ -78,4 +73,4 @@ const FormElement = ({ fields, nextPageRoute }: { fields: Array<fieldProps>; nex
     )
 }
 
-export default FormElement
+export default TextForm
