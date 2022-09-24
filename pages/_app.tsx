@@ -4,6 +4,7 @@ import { StarknetProvider, getInstalledInjectedConnectors } from "@starknet-reac
 import { WagmiConfig, createClient } from "wagmi"
 import { getDefaultProvider } from "ethers"
 import "../styles/globals.css"
+import { useEffect } from "react"
 
 export type ISetContractContext = {
     context: IFormDataContext
@@ -29,17 +30,31 @@ export enum recoveryOptions {
     TrustedAgent,
 }
 
-const client = createClient({
-    autoConnect: true,
-    provider: getDefaultProvider(),
-})
-
-const connectors = getInstalledInjectedConnectors()
-
 export const FormDataContext = createContext<ISetContractContext | null>(null)
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [context, setContext] = useState<IFormDataContext>({})
+    const [mobile, setMobile] = useState<boolean>()
+
+    useEffect(() => {
+        const { isMobile } = require("react-device-detect")
+        setMobile(isMobile)
+    }, [])
+
+    if (mobile)
+        return (
+            <div className="flex justify-center text-center items-center w-full h-screen p-2">
+                <span>This application is not supported on mobile.</span>
+            </div>
+        )
+
+    const client = createClient({
+        autoConnect: true,
+        provider: getDefaultProvider(),
+    })
+
+    const connectors = getInstalledInjectedConnectors()
+
     return (
         <WagmiConfig client={client}>
             <StarknetProvider connectors={connectors}>

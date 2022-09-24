@@ -1,12 +1,14 @@
 import Link from "next/link"
 import { FormEvent, useRef, useState } from "react"
-import { TextFormField, DateFormField, DropdownSelector } from "components"
+import { TextFormField, DateFormField, CountrySelector, DocumentTypeSelector } from "components"
 
 const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const [firstName, setFirstName] = useState<string>("")
     const [lastName, setLastName] = useState<string>("")
     const [DOB, setDOB] = useState<string>()
     const [country, setCountry] = useState<string>("")
+    const [docType, setDocType] = useState<string>("")
+    const [docNumber, setDocNumber] = useState<string>("")
     const formRef = useRef<HTMLFormElement>(null)
 
     const submitForm = (e: FormEvent<HTMLFormElement>) => {
@@ -20,7 +22,7 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     return (
         <form onSubmit={(e) => submitForm(e)} ref={formRef}>
             <div className="flex w-full px-6 py-6 justify-between rounded-xl bg-white gap-12 mx-2">
-                <div className="flex flex-col w-full gap-5">
+                <div className="grid grid-cols-2 gap-5">
                     <TextFormField
                         label="Legal first name"
                         placeholder="Satoshi"
@@ -38,10 +40,17 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
                         value={DOB ? DOB : ""}
                         onChange={(e) => setDOB(e.target.value)}
                     />
-                    <DropdownSelector
+                    <CountrySelector
                         label="Country of origin"
                         value={country ? country : ""}
                         onChange={(e) => setCountry(e.target.value)}
+                    />
+                    <DocumentTypeSelector docType={docType} setDocType={setDocType} />
+                    <TextFormField
+                        label="Legal document number"
+                        placeholder="ABC123456"
+                        value={docNumber}
+                        onChange={(e) => setDocNumber(e.target.value)}
                     />
                 </div>
             </div>
