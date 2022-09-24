@@ -1,8 +1,11 @@
 import Link from "next/link"
-import { FormEvent, useRef, useState } from "react"
+import { FormEvent, useContext, useRef, useState } from "react"
 import { TextFormField, DateFormField, CountrySelector, DocumentTypeSelector } from "components"
+import { FormDataContext, ISetContractContext } from "pages/_app"
+import { useRouter } from "next/router"
 
 const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
+    const { context, setContext } = useContext(FormDataContext) as ISetContractContext
     const [firstName, setFirstName] = useState<string>("")
     const [lastName, setLastName] = useState<string>("")
     const [DOB, setDOB] = useState<string>()
@@ -10,9 +13,21 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const [docType, setDocType] = useState<string>("")
     const [docNumber, setDocNumber] = useState<string>("")
     const formRef = useRef<HTMLFormElement>(null)
+    const router = useRouter()
 
     const submitForm = (e: FormEvent<HTMLFormElement>) => {
-        return
+        e.preventDefault()
+        if (!firstName || !lastName || !DOB || !country || !docType || !docNumber) return
+        setContext({
+            ...context,
+            firstName: firstName,
+            lastName: lastName,
+            dateOfBirth: DOB,
+            countryOfOrigin: country,
+            legalDocumentType: docType,
+            legalDocumentNumber: docNumber,
+        })
+        router.push(nextPageRoute)
     }
 
     const triggerSubmitForm = () => {
