@@ -1,9 +1,9 @@
-import { MenuBar, DialogButton, TitleDescription } from "components"
+import { MenuBar, DialogButton, TitleDescription, SideBar } from "components"
 import { BodyLayout } from "layouts"
 
 const Setup = () => {
     const pathObject = [
-        { name: "Home", path: "/welcome" },
+        { name: "Home", path: "/" },
         { name: "Setup a new wallet", path: "/setup" },
     ]
 
@@ -11,7 +11,7 @@ const Setup = () => {
         <div className="flex flex-col w-screen h-screen bg-gray-200">
             <MenuBar />
             <div className="flex w-full h-full">
-                <div className="flex h-full w-80 bg-gray-200 z-10"></div>
+                <SideBar />
                 <BodyLayout path={pathObject}>
                     <TitleDescription
                         title="Setup a new wallet"

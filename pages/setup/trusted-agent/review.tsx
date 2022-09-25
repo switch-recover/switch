@@ -6,7 +6,7 @@ const Review = () => {
     const { context } = useContext(FormDataContext) as ISetContractContext
 
     const pathObject = [
-        { name: "Home", path: "/welcome" },
+        { name: "Home", path: "/" },
         { name: "Setup a new wallet", path: "/setup" },
         { name: "Trusted Agent recovery", path: "/setup/trusted-agent" },
         { name: "Setup your legal identification", path: "/setup/trusted-agent/legal" },

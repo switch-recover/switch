@@ -7,6 +7,7 @@ module.exports = {
                 theme: {
                     DEFAULT: "#B4F2FF",
                     dark: "#9ADBFC",
+                    darker: "#0095b3",
                     light: "#CDF6FF",
                     lighter: "#E7FBFF",
                 },

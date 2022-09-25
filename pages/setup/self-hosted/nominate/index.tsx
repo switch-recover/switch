@@ -1,9 +1,9 @@
-import { MenuBar, TitleDescription, RecoveryAddressForm } from "components"
+import { MenuBar, TitleDescription, RecoveryAddressForm, SideBar } from "components"
 import { BodyLayout } from "layouts"
 
 const NominateRecoveryAddress = () => {
     const pathObject = [
-        { name: "Home", path: "/welcome" },
+        { name: "Home", path: "/" },
         { name: "Setup a new wallet", path: "/setup" },
         { name: "Self hosted recovery", path: "/setup/self-hosted" },
         { name: "Nominate a recovery address", path: "/setup/self-hosted/nominate" },
@@ -13,7 +13,7 @@ const NominateRecoveryAddress = () => {
         <div className="flex flex-col w-screen h-screen bg-gray-200">
             <MenuBar />
             <div className="flex w-full h-full">
-                <div className="flex h-full w-80 bg-gray-200 z-10"></div>
+                <SideBar />
                 <BodyLayout path={pathObject}>
                     <TitleDescription
                         title="Nominate a recovery address"

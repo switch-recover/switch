@@ -3,7 +3,7 @@ import { BodyLayout } from "layouts"
 
 const SelfHostedRecovery = () => {
     const pathObject = [
-        { name: "Home", path: "/welcome" },
+        { name: "Home", path: "/" },
         { name: "Setup a new wallet", path: "/setup" },
         { name: "Self hosted recovery", path: "/setup/self-hosted" },
     ]

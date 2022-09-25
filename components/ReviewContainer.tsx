@@ -1,4 +1,4 @@
-import { MenuBar, TitleDescription, DisplayList, DeployContractButton } from "components"
+import { MenuBar, TitleDescription, DisplayList, DeployContractButton, SideBar } from "components"
 import { BodyLayout } from "layouts"
 
 type pathObjectProp = {
@@ -22,7 +22,7 @@ const ReviewContainer = ({
         <div className="flex flex-col w-screen h-screen bg-gray-200">
             <MenuBar />
             <div className="flex w-full h-full">
-                <div className="flex h-full w-80 bg-gray-200 z-10"></div>
+                <SideBar />
                 <BodyLayout path={pathObject}>
                     <TitleDescription
                         title="Review"
