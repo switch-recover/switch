@@ -5,7 +5,7 @@ const SideBar = () => {
     const [plan, setPlan] = useState()
 
     return (
-        <div className="flex flex-col h-full w-80 bg-gray-200 z-10 p-4 justify-between">
+        <div className="hidden sm:flex flex-col h-full w-80 bg-gray-200 z-10 p-4 justify-between">
             {plan ? <ActivePlan /> : <InactivePlan />}
             <div className="flex-col justify-between gap-3 border-t border-gray-400 p-5">
                 <div className="flex items-center gap-8 cursor-pointer hover:opacity-60 active:opacity-40 select-none">
