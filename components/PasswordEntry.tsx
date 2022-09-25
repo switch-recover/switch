@@ -104,6 +104,7 @@ const Entry = ({ label, value, onChange, autoFocus, hidden, setHidden }: EntryPr
                         width="20"
                         height="20"
                         className="hover:opacity-60 active:opacity-40 cursor-pointer"
+                        alt="Toggle hide"
                     />
                 </div>
             </div>

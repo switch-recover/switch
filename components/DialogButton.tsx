@@ -27,7 +27,7 @@ const DialogButton = ({ location, header, text, logo, colorScheme }: DialogButto
                         <span className="text-sm">{text}</span>
                     </div>
                     <div className="flex items-center">
-                        <Image src={logo} width="40" height="40" layout="fixed" />
+                        <Image src={logo} width="40" height="40" layout="fixed" alt={logo} />
                     </div>
                 </div>
             </a>

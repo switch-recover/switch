@@ -7,7 +7,7 @@ const MenuBar = () => {
         <div className="flex w-full h-16 bg-gray-50 justify-between items-center py-4 px-6 drop-shadow-lg z-20">
             <Link href="/welcome">
                 <a className="cursor-pointer flex">
-                    <Image src="/logo.png" width="145" height="25" layout="fixed"></Image>
+                    <Image src="/logo.png" width="145" height="25" layout="fixed" alt="Switch logo" />
                 </a>
             </Link>
             <div className="flex gap-3">
