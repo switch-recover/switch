@@ -1,18 +1,39 @@
 import { MenuBar, TitleDescription, RecoveryAddressForm, SideBar, DisplayList, NextPageButton } from "components"
 import { BodyLayout } from "layouts"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import { recoveryOptions } from "pages/_app"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 const RecoveryDetails = () => {
     const [plan, setPlan] = useState<recoveryOptions>(recoveryOptions.SelfHosted)
+    const router = useRouter()
 
     const pathObject = [
         { name: "Home", path: "/" },
         { name: "Recover a lost wallet", path: "/recover" },
         { name: "Recovery plan details", path: "/recover/details" },
     ]
+
+    const handleKeyPress = useCallback((e: KeyboardEvent) => {
+        if (e.key === "Enter") {
+            const routerMap = {
+                0: "/recover/self-hosted/nominate",
+                1: "/recover/self-hosted/password",
+                2: "/recover/trusted-agent",
+                3: "/",
+            }
+            router.push(routerMap[plan])
+        }
+    }, [])
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyPress)
+        return () => {
+            window.removeEventListener("keydown", handleKeyPress)
+        }
+    }, [handleKeyPress])
 
     // useEffect(() => {
     //     // Retrieve plan details based on wallet address
@@ -38,6 +59,7 @@ const RecoveryDetails = () => {
             <MenuBar />
             <div className="flex w-full h-full">
                 <SideBar />
+
                 <BodyLayout path={pathObject}>{renderPlanDetails()}</BodyLayout>
             </div>
         </div>
