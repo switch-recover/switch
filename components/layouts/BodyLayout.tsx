@@ -8,7 +8,7 @@ type PathProps = {
 const BodyLayout = ({ path, children }: any) => {
     return (
         <div className="flex h-full w-full bg-gray-100 justify-center p-4 relative">
-            <div className="absolute top-3 left-4 text-xs font-semibold flex flex-wrap">
+            <div className="absolute top-3 left-4 text-xs font-semibold flex flex-wrap pr-2">
                 {path.map((p: PathProps, i: number) => {
                     if (i === Object.keys(path).length - 1) {
                         return (
