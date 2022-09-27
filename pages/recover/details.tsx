@@ -59,7 +59,6 @@ const RecoveryDetails = () => {
             <MenuBar />
             <div className="flex w-full h-full">
                 <SideBar />
-
                 <BodyLayout path={pathObject}>{renderPlanDetails()}</BodyLayout>
             </div>
         </div>
@@ -113,7 +112,7 @@ const SelfHostedNominate = () => {
             />
             <div className="flex flex-col">
                 <DisplayList fields={recoveryDetails} />
-                <NextPageButton nextPageRoute="/recover/process" formRef={null} />
+                <NextPageButton nextPageRoute="/recover/self-hosted/nominate" formRef={null} />
             </div>
         </>
     )
@@ -148,7 +147,7 @@ const SelfHostedPassword = () => {
             />
             <div className="flex flex-col">
                 <DisplayList fields={recoveryDetails} />
-                <NextPageButton nextPageRoute="/recover/process" formRef={null} />
+                <NextPageButton nextPageRoute="/recover/self-hosted/password" formRef={null} />
             </div>
         </>
     )
@@ -179,7 +178,7 @@ const TrustedAgent = () => {
             />
             <div className="flex flex-col">
                 <DisplayList fields={recoveryDetails} />
-                <NextPageButton nextPageRoute="/recover/process" formRef={null} />
+                <NextPageButton nextPageRoute="/recover/trusted-agent" formRef={null} />
             </div>
         </>
     )
