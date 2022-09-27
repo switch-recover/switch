@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useConnectors, useStarknet } from "@starknet-react/core"
 import { ConnectorOverlay } from "components"
 import { shortenAddress } from "utils/shortenAddress"
+import Image from "next/image"
 
 const StarknetConnector = () => {
     const [open, setOpen] = useState(false)
@@ -14,7 +15,7 @@ const StarknetConnector = () => {
     }, [])
 
     return (
-        <div className="w-36 h-11 rounded-full flex justify-center items-center">
+        <div className="w-20 sm:w-36 h-11 rounded-full flex justify-center items-center">
             <ConnectorOverlay open={open} setOpen={setOpen} setHover={setHover} />
             {account ? (
                 <div
@@ -26,19 +27,25 @@ const StarknetConnector = () => {
                     {hover ? (
                         <div className="flex items-center gap-3">
                             <div className="w-2 h-2 rounded-full bg-red-500" />
-                            <div className="flex flex-col items-center">
+                            <div className="hidden sm:flex flex-col items-center">
                                 <span className="text-center text-sm font-semibold w-24">Disconnect</span>
-                                <span className="text-xs">Starknet</span>
+                                <span className="text-xs">StarkNet</span>
+                            </div>
+                            <div className="flex sm:hidden">
+                                <span className="text-center text-sm font-semibold">End</span>
                             </div>
                         </div>
                     ) : (
                         <div className="flex items-center gap-3">
-                            <div className="w-2 h-2 rounded-full bg-green-500" />
-                            <div className="flex flex-col items-center">
+                            <div className="hidden sm:flex w-2 h-2 rounded-full bg-green-500" />
+                            <div className="hidden sm:flex flex-col items-center">
                                 <span className="text-center text-sm font-semibold w-24">
                                     {shortenAddress(account)}
                                 </span>
-                                <span className="text-xs">Starknet</span>
+                                <span className="text-xs">StarkNet</span>
+                            </div>
+                            <div className="flex sm:hidden">
+                                <Image src="/ethereum.png" height="27" width="15" alt="Ethereum" />
                             </div>
                         </div>
                     )}
