@@ -1,17 +1,19 @@
 import { Dispatch, SetStateAction } from "react"
 
-const DocumentTypeSelector = ({
-    docType,
-    setDocType,
+const RadioButtonSelector = ({
+    label,
+    value,
+    setValue,
 }: {
-    docType: string
-    setDocType: Dispatch<SetStateAction<string>>
+    label: string
+    value: string
+    setValue: Dispatch<SetStateAction<string>>
 }) => {
     const options = ["Passport", "Driver's License", "Identity Card"]
 
     return (
         <div className="flex flex-col gap-1">
-            <label className="text-xs font-semibold mb-1">Legal document type</label>
+            <label className="text-xs font-semibold mb-1">{label}</label>
             {options.map((op, i) => {
                 return (
                     <div className="radio" key={i}>
@@ -19,8 +21,8 @@ const DocumentTypeSelector = ({
                             <input
                                 type="radio"
                                 value={op}
-                                checked={docType === op}
-                                onChange={(e) => setDocType(e.target.value)}
+                                checked={value === op}
+                                onChange={(e) => setValue(e.target.value)}
                             />
                             <span className="text-sm">{op}</span>
                         </label>
@@ -31,4 +33,4 @@ const DocumentTypeSelector = ({
     )
 }
 
-export default DocumentTypeSelector
+export default RadioButtonSelector
