@@ -9,7 +9,7 @@ const SideBar = () => {
             {plan ? <ActivePlan /> : <InactivePlan />}
             <div className="flex-col justify-between gap-3 border-t border-gray-400 p-5">
                 <div className="flex items-center gap-8 cursor-pointer hover:opacity-60 active:opacity-40 select-none">
-                    <Image src="/book.png" width="24" height="24" />
+                    <Image src="/book.png" width="24" height="24" alt="Documentation" />
                     <span className="font-semibold text-sm">Documentation</span>
                 </div>
             </div>

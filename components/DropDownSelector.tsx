@@ -12,8 +12,10 @@ const DropDownSelector = ({ label, options, value, onChange }: FormFieldProps) =
             <div className="w-full bg-gray-100 px-3 py-1 rounded-md outline-none text-gray-800">
                 <select value={value} onChange={onChange} className="w-full bg-transparent outline-none">
                     <option>Select country:</option>
-                    {options.map((op) => (
-                        <option value={op}>{op}</option>
+                    {options.map((op, i) => (
+                        <option value={op} key={i}>
+                            {op}
+                        </option>
                     ))}
                 </select>
             </div>
