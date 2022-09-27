@@ -1,7 +1,7 @@
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { FormEvent, useContext, useRef, useState } from "react"
+import NextPageButton from "./NextPageButton"
 
 type NumberSelectorProps = {
     id: string
@@ -23,10 +23,6 @@ const NumberSelector = ({ id, placeholder, nextPageRoute }: NumberSelectorProps)
             [id]: amount,
         })
         router.push(nextPageRoute)
-    }
-
-    const triggerSubmitForm = () => {
-        if (formRef) formRef.current?.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))
     }
 
     return (
@@ -53,12 +49,7 @@ const NumberSelector = ({ id, placeholder, nextPageRoute }: NumberSelectorProps)
                     </div>
                 </div>
             </div>
-            <div
-                className="w-full text-right text-xs font-semibold mt-4 cursor-pointer text-gray-400 hover:text-gray-800"
-                onClick={() => triggerSubmitForm()}
-            >
-                Continue (Enter ⏎)
-            </div>
+            <NextPageButton nextPageRoute={nextPageRoute} formRef={formRef} />
         </form>
     )
 }

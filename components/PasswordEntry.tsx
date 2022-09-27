@@ -3,6 +3,7 @@ import Image from "next/image"
 import { Dispatch, FormEvent, SetStateAction, useContext, useRef, useState } from "react"
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { useRouter } from "next/router"
+import NextPageButton from "./NextPageButton"
 
 const PasswordEntry = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const [password, setPassword] = useState<string>("")
@@ -26,12 +27,7 @@ const PasswordEntry = ({ nextPageRoute }: { nextPageRoute: string }) => {
             ...context,
             passwordHash: password,
         })
-        console.log(context)
         router.push(nextPageRoute)
-    }
-
-    const triggerSubmitForm = () => {
-        if (formRef) formRef.current?.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))
     }
 
     return (
@@ -64,12 +60,7 @@ const PasswordEntry = ({ nextPageRoute }: { nextPageRoute: string }) => {
                     />
                 </div>
             </div>
-            <div
-                className="w-full text-right text-xs font-semibold mt-4 cursor-pointer text-gray-400 hover:text-gray-800"
-                onClick={() => triggerSubmitForm()}
-            >
-                Continue (Enter ⏎)
-            </div>
+            <NextPageButton nextPageRoute={nextPageRoute} formRef={formRef} />
         </form>
     )
 }

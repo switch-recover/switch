@@ -1,8 +1,9 @@
-import Link from "next/link"
 import { FormEvent, useContext, useRef, useState } from "react"
-import { TextFormField, DateFormField, CountrySelector, DocumentTypeSelector } from "components"
+import { TextFormField, DateFormField, DropDownSelector, RadioButtonSelector } from "components"
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { useRouter } from "next/router"
+import { countries } from "utils/countries"
+import NextPageButton from "./NextPageButton"
 
 const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const { context, setContext } = useContext(FormDataContext) as ISetContractContext
@@ -30,10 +31,6 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
         router.push(nextPageRoute)
     }
 
-    const triggerSubmitForm = () => {
-        if (formRef) formRef.current?.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))
-    }
-
     return (
         <form onSubmit={(e) => submitForm(e)} ref={formRef}>
             <div className="flex w-full px-6 py-6 justify-between rounded-xl bg-white gap-12 mx-2">
@@ -55,12 +52,13 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
                         value={DOB ? DOB : ""}
                         onChange={(e) => setDOB(e.target.value)}
                     />
-                    <CountrySelector
+                    <DropDownSelector
                         label="Country of origin"
+                        options={countries}
                         value={country ? country : ""}
                         onChange={(e) => setCountry(e.target.value)}
                     />
-                    <DocumentTypeSelector docType={docType} setDocType={setDocType} />
+                    <RadioButtonSelector label="Legal document type" value={docType} setValue={setDocType} />
                     <TextFormField
                         label="Legal document number"
                         placeholder="ABC123456"
@@ -69,16 +67,7 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
                     />
                 </div>
             </div>
-            <Link href={nextPageRoute}>
-                <a>
-                    <div
-                        className="w-full text-right text-xs font-semibold mt-4 cursor-pointer text-gray-400 hover:text-gray-800"
-                        onClick={() => triggerSubmitForm()}
-                    >
-                        Continue (Enter ⏎)
-                    </div>
-                </a>
-            </Link>
+            <NextPageButton nextPageRoute={nextPageRoute} formRef={formRef} />
         </form>
     )
 }

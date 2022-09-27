@@ -1,8 +1,8 @@
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { FormEvent, useContext, useRef, useState } from "react"
 import { useRouter } from "next/router"
-import Link from "next/link"
 import { TextFormField } from "components"
+import NextPageButton from "./NextPageButton"
 
 const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const { context, setContext } = useContext(FormDataContext) as ISetContractContext
@@ -18,10 +18,6 @@ const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
             recoveryAddress: address,
         })
         router.push(nextPageRoute)
-    }
-
-    const triggerSubmitForm = () => {
-        if (formRef) formRef.current?.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))
     }
 
     return (
@@ -44,12 +40,7 @@ const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
                     />
                 </div>
             </div>
-            <div
-                className="w-full text-right text-xs font-semibold mt-4 cursor-pointer text-gray-400 hover:text-gray-800"
-                onClick={() => triggerSubmitForm()}
-            >
-                Continue (Enter ⏎)
-            </div>
+            <NextPageButton nextPageRoute={nextPageRoute} formRef={formRef} />
         </form>
     )
 }
