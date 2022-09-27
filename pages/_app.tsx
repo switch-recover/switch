@@ -28,6 +28,7 @@ export enum recoveryOptions {
     SelfHosted,
     SelfHostedPassword,
     TrustedAgent,
+    None,
 }
 
 export const FormDataContext = createContext<ISetContractContext | null>(null)
