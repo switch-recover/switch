@@ -19,7 +19,7 @@ const SideBar = () => {
 
 const InactivePlan = () => {
     return (
-        <div className="flex flex-col gap-2 mt-6">
+        <div className="flex flex-col gap-2 mt-3">
             <span className="text-sm font-semibold text-gray-400 px-2">No active plan</span>
             <div className="flex flex-col gap-3 bg-gray-50 rounded-lg w-full h-24 p-4">
                 <div className="bg-gray-200 w-1/3 h-3"></div>
@@ -31,7 +31,7 @@ const InactivePlan = () => {
 
 const ActivePlan = () => {
     return (
-        <div className="flex flex-col gap-2 mt-6">
+        <div className="flex flex-col gap-2 mt-3">
             <span className="text-sm font-semibold text-gray-400 px-2">Active plan</span>
             <div className="flex flex-col bg-gray-50 rounded-lg w-full h-24 p-4">
                 <div className="flex justify-between items-center">
