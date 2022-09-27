@@ -1,5 +1,4 @@
-import { MenuBar, TitleDescription, RecoveryAddressForm, SideBar } from "components"
-import { BodyLayout } from "layouts"
+import { BodyLayout, MenuBar, TitleDescription, RecoveryAddressForm, SideBar } from "components"
 
 const NominateRecoveryAddress = () => {
     const pathObject = [

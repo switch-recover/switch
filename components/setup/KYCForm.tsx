@@ -1,9 +1,8 @@
 import { FormEvent, useContext, useRef, useState } from "react"
-import { TextFormField, DateFormField, DropDownSelector, RadioButtonSelector } from "components"
+import { TextFormField, DateFormField, DropDownSelector, RadioButtonSelector, NextPageButton } from "components"
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { useRouter } from "next/router"
 import { countries } from "utils/countries"
-import NextPageButton from "./NextPageButton"
 
 const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const { context, setContext } = useContext(FormDataContext) as ISetContractContext
@@ -40,17 +39,20 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
                         placeholder="Satoshi"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
+                        autoFocus={true}
                     />
                     <TextFormField
                         label="Legal last name"
                         placeholder="Nakamoto"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
+                        autoFocus={false}
                     />
                     <DateFormField
                         label="Date of birth"
                         value={DOB ? DOB : ""}
                         onChange={(e) => setDOB(e.target.value)}
+                        autoFocus={false}
                     />
                     <DropDownSelector
                         label="Country of origin"
@@ -64,6 +66,7 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
                         placeholder="ABC123456"
                         value={docNumber}
                         onChange={(e) => setDocNumber(e.target.value)}
+                        autoFocus={false}
                     />
                 </div>
             </div>

@@ -1,5 +1,4 @@
-import { MenuBar, TitleDescription, RecoveryAddressForm, SideBar, DisplayList, NextPageButton } from "components"
-import { BodyLayout } from "layouts"
+import { BodyLayout, MenuBar, TitleDescription, SideBar, DisplayList, NextPageButton } from "components"
 import { useCallback, useEffect, useState } from "react"
 
 import { recoveryOptions } from "pages/_app"
@@ -7,7 +6,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 
 const RecoveryDetails = () => {
-    const [plan, setPlan] = useState<recoveryOptions>(recoveryOptions.SelfHosted)
+    const [plan, setPlan] = useState<recoveryOptions>(recoveryOptions.TrustedAgent)
     const router = useRouter()
 
     const pathObject = [

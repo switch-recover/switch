@@ -1,5 +1,4 @@
-import { KYCForm, MenuBar, SideBar, TitleDescription } from "components"
-import { BodyLayout } from "layouts"
+import { BodyLayout, KYCForm, MenuBar, SideBar, TitleDescription } from "components"
 
 const LegalIdentification = () => {
     const pathObject = [

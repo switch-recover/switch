@@ -1,5 +1,4 @@
-import { MenuBar, DialogButton, TitleDescription, SideBar } from "components"
-import { BodyLayout } from "layouts"
+import { BodyLayout, MenuBar, DialogButton, TitleDescription, SideBar } from "components"
 
 const TrustedAgentRecovery = () => {
     const pathObject = [

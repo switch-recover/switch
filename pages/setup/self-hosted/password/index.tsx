@@ -1,5 +1,4 @@
-import { MenuBar, PasswordEntry, SideBar, TitleDescription } from "components"
-import { BodyLayout } from "layouts"
+import { BodyLayout, MenuBar, PasswordEntry, SideBar, TitleDescription } from "components"
 
 const SetPassword = () => {
     const pathObject = [

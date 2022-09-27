@@ -1,11 +1,11 @@
-type displayField = {
+export type displayField = {
     label: string
     value: string
 }
 
 const DisplayList = ({ fields }: { fields: Array<displayField> }) => {
     return (
-        <div className="flex w-full px-6 py-6 justify-between rounded-xl bg-white gap-12 mx-2">
+        <div className="flex px-6 py-6 justify-between rounded-xl bg-white gap-12 mx-2">
             <div className="flex flex-col w-full gap-5">
                 {fields.map((fd: displayField, i: number) => {
                     return (

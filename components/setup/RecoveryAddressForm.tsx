@@ -1,8 +1,7 @@
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { FormEvent, useContext, useRef, useState } from "react"
 import { useRouter } from "next/router"
-import { TextFormField } from "components"
-import NextPageButton from "./NextPageButton"
+import { TextFormField, NextPageButton } from "components"
 
 const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const { context, setContext } = useContext(FormDataContext) as ISetContractContext
@@ -37,6 +36,7 @@ const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
                         placeholder="0x123...456"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
+                        autoFocus={true}
                     />
                 </div>
             </div>

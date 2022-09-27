@@ -1,5 +1,4 @@
-import { MenuBar, NumberSelector, SideBar, TitleDescription } from "components"
-import { BodyLayout } from "layouts"
+import { BodyLayout, MenuBar, NumberSelector, SideBar, TitleDescription } from "components"
 
 type pathObjectProp = {
     name: string

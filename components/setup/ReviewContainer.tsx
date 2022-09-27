@@ -1,5 +1,4 @@
-import { MenuBar, TitleDescription, DisplayList, DeployContractButton, SideBar } from "components"
-import { BodyLayout } from "layouts"
+import { BodyLayout, MenuBar, TitleDescription, DisplayList, Button, SideBar } from "components"
 
 type pathObjectProp = {
     name: string
@@ -29,7 +28,7 @@ const ReviewContainer = ({
                         description="Carefully review the settings below before continuing. You can change these settings later, but it will cost you some gas fees to do so."
                     />
                     <DisplayList fields={displayFields} />
-                    <DeployContractButton />
+                    <Button label="Deploy recovery service" callback={() => {}} />
                 </BodyLayout>
             </div>
         </div>

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { FormEvent, useContext, useRef, useState } from "react"
-import NextPageButton from "./NextPageButton"
+import { NextPageButton } from "components"
 
 type NumberSelectorProps = {
     id: string

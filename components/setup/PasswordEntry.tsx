@@ -1,9 +1,8 @@
-import Link from "next/link"
 import Image from "next/image"
 import { Dispatch, FormEvent, SetStateAction, useContext, useRef, useState } from "react"
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { useRouter } from "next/router"
-import NextPageButton from "./NextPageButton"
+import { NextPageButton } from "components"
 
 const PasswordEntry = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const [password, setPassword] = useState<string>("")
