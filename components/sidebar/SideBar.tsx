@@ -21,7 +21,9 @@ const SideBar = () => {
                 }`}
             >
                 <div className="flex items-center gap-8 cursor-pointer hover:opacity-60 active:opacity-40 select-none">
-                    <Image src="/book.png" width="24" height="24" alt="Documentation" />
+                    <div className="flex w-6 h-6">
+                        <Image src="/book.png" width="24" height="24" alt="Documentation" />
+                    </div>
                     <span className="font-semibold text-sm">Documentation</span>
                 </div>
             </div>
