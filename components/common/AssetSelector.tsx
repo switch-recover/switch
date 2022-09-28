@@ -57,8 +57,8 @@ const AssetSelector = () => {
     return (
         <div className="flex mx-8 px-4 py-4 justify-between rounded-xl bg-white gap-12">
             <div className="flex flex-col w-full gap-2 item-center h-52 overflow-scroll">
-                {assets.map((ast) => (
-                    <AssetEntry assetData={ast} toggleSelected={toggleSelected} />
+                {assets.map((ast, i) => (
+                    <AssetEntry assetData={ast} toggleSelected={toggleSelected} key={i} />
                 ))}
             </div>
         </div>
