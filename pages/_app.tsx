@@ -31,10 +31,21 @@ export enum recoveryOptions {
     None,
 }
 
+export type ISetInterfaceContext = {
+    UIContext: IInterfaceContext
+    setUIContext: (context: IInterfaceContext) => void
+}
+
+export type IInterfaceContext = {
+    sideBarHidden: boolean
+}
+
 export const FormDataContext = createContext<ISetContractContext | null>(null)
+export const InterfaceContext = createContext<ISetInterfaceContext | null>(null)
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [context, setContext] = useState<IFormDataContext>({})
+    const [UIContext, setUIContext] = useState<IInterfaceContext>({ sideBarHidden: false })
     const [mobile, setMobile] = useState<boolean>()
 
     useEffect(() => {
@@ -60,7 +71,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         <WagmiConfig client={client}>
             <StarknetProvider connectors={connectors}>
                 <FormDataContext.Provider value={{ context, setContext }}>
-                    <Component {...pageProps} />
+                    <InterfaceContext.Provider value={{ UIContext, setUIContext }}>
+                        <Component {...pageProps} />
+                    </InterfaceContext.Provider>
                 </FormDataContext.Provider>
             </StarknetProvider>
         </WagmiConfig>
