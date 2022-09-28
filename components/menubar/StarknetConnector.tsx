@@ -1,26 +1,75 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
-import { useConnectors, useStarknet } from "@starknet-react/core"
-import { ConnectorOverlay } from "components"
+import { connect } from "@argent/get-starknet"
+import { shortString } from "starknet"
+import {
+    addWalletChangeListener,
+    chainId,
+    connectWallet,
+    disconnectWallet,
+    removeWalletChangeListener,
+    silentConnectWallet,
+    addNetworkChangeListener,
+    removeNetworkChangeListener,
+} from "utils/StarknetWalletServices"
 import { shortenAddress } from "utils/shortenAddress"
 import Image from "next/image"
+import { Account, AccountInterface } from "starknet"
 
 const StarknetConnector = () => {
-    const [open, setOpen] = useState(false)
     const [hover, setHover] = useState(false)
-    const { account } = useStarknet()
-    const { connect, connectors } = useConnectors()
+    const [address, setAddress] = useState<string>()
+    const [chain, setChain] = useState<string | undefined>()
+    const [isConnected, setConnected] = useState(false)
+    const [account, setAccount] = useState<AccountInterface | null>(null)
+
+    const disconnectHandler = () => {
+        setAddress("")
+        setChain(undefined)
+        setConnected(false)
+        setAccount(null)
+    }
 
     useEffect(() => {
-        if (connectors) connect(connectors[0])
+        const handler = async () => {
+            const wallet = await silentConnectWallet()
+            setAddress(wallet?.selectedAddress)
+            const fetchedChainId = await chainId()
+            setChain(fetchedChainId)
+            setConnected(!!wallet?.isConnected)
+            if (wallet?.account) {
+                setAccount(wallet.account)
+            }
+        }
+
+        ;(async () => {
+            await handler()
+            addWalletChangeListener(handler)
+            addNetworkChangeListener(handler)
+        })()
+
+        return () => {
+            removeWalletChangeListener(handler)
+            removeNetworkChangeListener(handler)
+        }
     }, [])
 
     return (
         <div className="w-20 sm:w-44 h-11 rounded-full flex justify-center items-center">
-            <ConnectorOverlay open={open} setOpen={setOpen} setHover={setHover} />
-            {account ? (
-                <Connected hover={hover} setHover={setHover} account={account} />
+            {address ? (
+                <Connected
+                    hover={hover}
+                    setHover={setHover}
+                    address={address}
+                    chain={chain}
+                    disconnectHandler={disconnectHandler}
+                />
             ) : (
-                <Disconnected setOpen={setOpen} />
+                <Disconnected
+                    setAddress={setAddress}
+                    setChain={setChain}
+                    setConnected={setConnected}
+                    setAccount={setAccount}
+                />
             )}
         </div>
     )
@@ -29,30 +78,27 @@ const StarknetConnector = () => {
 const Connected = ({
     hover,
     setHover,
-    account,
+    address,
+    chain,
+    disconnectHandler,
 }: {
     hover: boolean
     setHover: Dispatch<SetStateAction<boolean>>
-    account: string
+    address: string | undefined
+    chain: string | undefined
+    disconnectHandler: () => void
 }) => {
-    const { library } = useStarknet()
-    const { disconnect } = useConnectors()
-
     return (
         <div
             className="flex items-center gap-2 w-full h-full justify-center rounded-full hover:cursor-pointer select-none hover:bg-red-100 active:bg-red-200 border"
-            onClick={() => disconnect()}
+            onClick={() => disconnectWallet(disconnectHandler)}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
             <div className="flex items-center gap-3">
                 <div
                     className={`w-2 h-2 rounded-full ${
-                        hover
-                            ? "bg-red-500"
-                            : library.chainId !== "0x534e5f474f45524c49"
-                            ? "bg-yellow-500"
-                            : "bg-green-500"
+                        hover ? "bg-red-500" : chain !== "SN_GOERLI" ? "bg-yellow-500" : "bg-green-500"
                     }`}
                 />
                 <div className="hidden sm:flex">
@@ -60,11 +106,9 @@ const Connected = ({
                 </div>
                 <div className="hidden sm:flex flex-col items-center">
                     <span className="text-center text-sm font-semibold w-24">
-                        {hover ? "Disconnect" : shortenAddress(account)}
+                        {hover ? "Disconnect" : address ? shortenAddress(address) : ""}
                     </span>
-                    <span className="text-xs">
-                        {library.chainId === "0x534e5f474f45524c49" ? "StarkNet Goerli" : "Switch to Goerli"}
-                    </span>
+                    <span className="text-xs">{chain === "SN_GOERLI" ? "StarkNet Goerli" : "Switch to Goerli"}</span>
                 </div>
                 <div className="flex sm:hidden">
                     {hover ? (
@@ -78,11 +122,29 @@ const Connected = ({
     )
 }
 
-const Disconnected = ({ setOpen }: { setOpen: Dispatch<SetStateAction<boolean>> }) => {
+const Disconnected = ({
+    setAddress,
+    setChain,
+    setConnected,
+    setAccount,
+}: {
+    setAddress: Dispatch<SetStateAction<string | undefined>>
+    setChain: Dispatch<SetStateAction<string | undefined>>
+    setConnected: Dispatch<SetStateAction<boolean>>
+    setAccount: Dispatch<SetStateAction<AccountInterface | null>>
+}) => {
+    const handleConnect = async () => {
+        const starknet = await connect()
+        setAddress(starknet?.account.address ? starknet?.account.address : "")
+        setChain(shortString.decodeShortString(starknet?.provider.chainId))
+        setConnected(starknet?.isConnected ? starknet?.isConnected : false)
+        setAccount(starknet?.account ? starknet?.account : null)
+    }
+
     return (
         <div
             className="flex flex-col w-full h-full justify-center items-center rounded-full cursor-pointer bg-theme hover:bg-theme-dark active:bg-theme select-none"
-            onClick={() => setOpen(true)}
+            onClick={() => handleConnect()}
         >
             <span className="text-sm font-semibold hidden sm:flex">Connect wallet</span>
             <span className="text-xs hidden sm:flex">Starknet</span>
