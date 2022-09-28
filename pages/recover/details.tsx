@@ -56,7 +56,7 @@ const RecoveryDetails = () => {
     return (
         <div className="flex flex-col w-screen h-screen bg-gray-200">
             <MenuBar />
-            <div className="flex w-full h-full">
+            <div className="flex w-full h-full relative">
                 <SideBar />
                 <BodyLayout path={pathObject}>{renderPlanDetails()}</BodyLayout>
             </div>

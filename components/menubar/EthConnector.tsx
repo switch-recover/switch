@@ -55,8 +55,11 @@ const EthConnector = () => {
                     className="flex flex-col w-full h-full justify-center items-center rounded-full cursor-pointer bg-theme hover:bg-theme-dark active:bg-theme select-none"
                     onClick={() => connect()}
                 >
-                    <span className="text-sm font-semibold">Connect wallet</span>
-                    <span className="text-xs">Ethereum</span>
+                    <span className="text-sm font-semibold hidden sm:flex">Connect wallet</span>
+                    <span className="text-xs hidden sm:flex">Ethereum</span>
+                    <div className="flex sm:hidden">
+                        <Image src="/ethereum.png" height="27" width="15" alt="Ethereum" />
+                    </div>
                 </div>
             )}
         </div>
