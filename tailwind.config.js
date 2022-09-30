@@ -24,5 +24,9 @@ module.exports = {
             pattern: /bg-gray-(50|200|300)/,
             variants: ["hover", "active"],
         },
+        {
+            pattern: /border-(green-500|red-500|none)/,
+            variants: ["focus", "hover", "active"],
+        },
     ],
 }
