@@ -28,7 +28,9 @@ const ReviewContainer = ({
                         description="Carefully review the settings below before continuing. You can change these settings later, but it will cost you some gas fees to do so."
                     />
                     <DisplayList fields={displayFields} />
-                    <Button label="Deploy recovery service" callback={() => {}} />
+                    <div className="px-2">
+                        <Button label="Deploy recovery service" callback={() => {}} />
+                    </div>
                 </BodyLayout>
             </div>
         </div>

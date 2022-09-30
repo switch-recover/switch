@@ -13,16 +13,11 @@ const NextPageButton = ({
     }
 
     return (
-        <Link href={nextPageRoute}>
-            <a>
-                <div
-                    className="w-full text-right text-xs font-semibold mt-4 cursor-pointer text-gray-400 hover:text-gray-800"
-                    onClick={() => triggerSubmitForm()}
-                >
-                    Continue (Enter ⏎)
-                </div>
-            </a>
-        </Link>
+        <div className="w-full flex justify-end text-xs font-semibold mt-4 text-gray-400 hover:text-gray-800">
+            <span onClick={() => triggerSubmitForm()} className="cursor-pointer">
+                Continue (Enter ⏎)
+            </span>
+        </div>
     )
 }
 

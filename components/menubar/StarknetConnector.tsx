@@ -136,7 +136,7 @@ const Disconnected = ({
     const handleConnect = async () => {
         const starknet = await connect()
         setAddress(starknet?.account.address ? starknet?.account.address : "")
-        setChain(shortString.decodeShortString(starknet?.provider.chainId))
+        setChain(shortString.decodeShortString(starknet?.provider.chainId ? starknet?.provider.chainId : ""))
         setConnected(starknet?.isConnected ? starknet?.isConnected : false)
         setAccount(starknet?.account ? starknet?.account : null)
     }

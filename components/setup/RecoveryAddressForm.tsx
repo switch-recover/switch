@@ -11,7 +11,9 @@ const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
 
     const submitForm = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (!address) return
+        if (!address || !address.match(/^0x[a-fA-F0-9]{40}$/g)) {
+            return
+        }
         setContext({
             ...context,
             recoveryAddress: address,
@@ -30,13 +32,22 @@ const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
             }}
         >
             <div className="flex w-full px-6 py-6 justify-between rounded-xl bg-white gap-12 mx-2">
-                <div className="flex flex-col w-full gap-5">
+                <div className="flex flex-col w-full gap-2">
                     <TextFormField
                         label="Recovery address"
                         placeholder="0x123...456"
                         value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        onChange={(e) => {
+                            setAddress(e.target.value)
+                        }}
                         autoFocus={true}
+                        classes={
+                            address
+                                ? address.match(/^0x[a-fA-F0-9]{40}$/g)
+                                    ? "border-green-500"
+                                    : "border-red-500"
+                                : "border-white"
+                        }
                     />
                 </div>
             </div>

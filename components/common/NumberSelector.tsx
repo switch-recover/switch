@@ -18,9 +18,10 @@ const NumberSelector = ({ id, placeholder, nextPageRoute }: NumberSelectorProps)
     const submitForm = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!amount) return
+        if (amount < 0) return
         setContext({
             ...context,
-            [id]: amount,
+            [id]: Math.round(amount),
         })
         router.push(nextPageRoute)
     }
