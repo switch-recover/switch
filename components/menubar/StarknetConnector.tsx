@@ -20,24 +20,25 @@ const StarknetConnector = () => {
     const [address, setAddress] = useState<string>()
     const [chain, setChain] = useState<string | undefined>()
     const [isConnected, setConnected] = useState(false)
-    const [account, setAccount] = useState<AccountInterface | null>(null)
 
     const disconnectHandler = () => {
         setAddress("")
         setChain(undefined)
         setConnected(false)
-        setAccount(null)
     }
 
     useEffect(() => {
         const handler = async () => {
-            const wallet = await silentConnectWallet()
-            setAddress(wallet?.selectedAddress)
-            const fetchedChainId = await chainId()
-            setChain(fetchedChainId)
-            setConnected(!!wallet?.isConnected)
-            if (wallet?.account) {
-                setAccount(wallet.account)
+            try {
+                const starknet = await connect()
+                await starknet?.enable()
+                // setProvider(starknet.account)
+                const fetchedChainId = await chainId()
+                setChain(fetchedChainId)
+                setAddress(starknet?.selectedAddress)
+                setConnected(true)
+            } catch (error) {
+                if (error instanceof Error) alert(error.message)
             }
         }
 
@@ -64,12 +65,7 @@ const StarknetConnector = () => {
                     disconnectHandler={disconnectHandler}
                 />
             ) : (
-                <Disconnected
-                    setAddress={setAddress}
-                    setChain={setChain}
-                    setConnected={setConnected}
-                    setAccount={setAccount}
-                />
+                <Disconnected setAddress={setAddress} setChain={setChain} setConnected={setConnected} />
             )}
         </div>
     )
@@ -126,19 +122,36 @@ const Disconnected = ({
     setAddress,
     setChain,
     setConnected,
-    setAccount,
 }: {
     setAddress: Dispatch<SetStateAction<string | undefined>>
     setChain: Dispatch<SetStateAction<string | undefined>>
     setConnected: Dispatch<SetStateAction<boolean>>
-    setAccount: Dispatch<SetStateAction<AccountInterface | null>>
 }) => {
     const handleConnect = async () => {
-        const starknet = await connect()
-        setAddress(starknet?.account.address ? starknet?.account.address : "")
-        setChain(shortString.decodeShortString(starknet?.provider.chainId ? starknet?.provider.chainId : ""))
-        setConnected(starknet?.isConnected ? starknet?.isConnected : false)
-        setAccount(starknet?.account ? starknet?.account : null)
+        const handler = async () => {
+            try {
+                const starknet = await connect()
+                await starknet?.enable()
+                // setProvider(starknet.account)
+                const fetchedChainId = await chainId()
+                setChain(fetchedChainId)
+                setAddress(starknet?.selectedAddress)
+                setConnected(true)
+            } catch (error) {
+                if (error instanceof Error) alert(error.message)
+            }
+        }
+
+        ;(async () => {
+            await handler()
+            addWalletChangeListener(handler)
+            addNetworkChangeListener(handler)
+        })()
+
+        return () => {
+            removeWalletChangeListener(handler)
+            removeNetworkChangeListener(handler)
+        }
     }
 
     return (
