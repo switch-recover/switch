@@ -13,7 +13,6 @@ import {
 } from "utils/StarknetWalletServices"
 import { shortenAddress } from "utils/shortenAddress"
 import Image from "next/image"
-import { Account, AccountInterface } from "starknet"
 
 const StarknetConnector = () => {
     const [hover, setHover] = useState(false)
@@ -30,9 +29,8 @@ const StarknetConnector = () => {
     useEffect(() => {
         const handler = async () => {
             try {
-                const starknet = await connect()
+                const starknet = await connect({ showList: false })
                 await starknet?.enable()
-                // setProvider(starknet.account)
                 const fetchedChainId = await chainId()
                 setChain(fetchedChainId)
                 setAddress(starknet?.selectedAddress)
