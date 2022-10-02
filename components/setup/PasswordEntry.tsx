@@ -3,6 +3,10 @@ import { Dispatch, FormEvent, SetStateAction, useContext, useRef, useState } fro
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { useRouter } from "next/router"
 import { NextPageButton } from "components"
+import { pedersen } from "starknet/dist/utils/hash"
+import { hexlify, sha256, toUtf8Bytes } from "ethers/lib/utils"
+import BN from "bn.js"
+import hashStrToShortInt from "utils/hashStrToShortInt"
 
 const PasswordEntry = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const [password, setPassword] = useState<string>("")
@@ -22,9 +26,10 @@ const PasswordEntry = ({ nextPageRoute }: { nextPageRoute: string }) => {
             console.log("password mismatched")
             return
         }
+
         setContext({
             ...context,
-            passwordHash: password,
+            passwordHash: pedersen([hashStrToShortInt(password), hashStrToShortInt(password)]),
         })
         router.push(nextPageRoute)
     }
@@ -103,3 +108,6 @@ const Entry = ({ label, value, onChange, autoFocus, hidden, setHidden }: EntryPr
 }
 
 export default PasswordEntry
+function web3StringToBytes32(temp: string): import("ethers").BytesLike {
+    throw new Error("Function not implemented.")
+}

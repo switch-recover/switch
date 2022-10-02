@@ -3,6 +3,8 @@ import { TextFormField, DateFormField, DropDownSelector, RadioButtonSelector, Ne
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { useRouter } from "next/router"
 import { countries } from "utils/countries"
+import { pedersen } from "starknet/dist/utils/hash"
+import hashStrToShortInt from "utils/hashStrToShortInt"
 
 const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const { context, setContext } = useContext(FormDataContext) as ISetContractContext
@@ -18,6 +20,12 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
     const submitForm = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!firstName || !lastName || !DOB || !country || !docType || !docNumber) return
+        const hash1 = pedersen([hashStrToShortInt(firstName), hashStrToShortInt(lastName)])
+        const hash2 = pedersen([hash1, hashStrToShortInt(DOB)])
+        const hash3 = pedersen([hash2, hashStrToShortInt(country)])
+        const hash4 = pedersen([hash3, hashStrToShortInt(docType)])
+        const hash5 = pedersen([hash4, hashStrToShortInt(docNumber)])
+
         setContext({
             ...context,
             firstName: firstName,
@@ -26,6 +34,7 @@ const KYCForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
             countryOfOrigin: country,
             legalDocumentType: docType,
             legalDocumentNumber: docNumber,
+            legalDocumentsHash: hash5,
         })
         router.push(nextPageRoute)
     }
