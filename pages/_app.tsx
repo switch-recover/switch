@@ -1,8 +1,8 @@
 import { AppProps } from "next/app"
 import React, { createContext, useState } from "react"
 import { StarknetProvider, getInstalledInjectedConnectors } from "@starknet-react/core"
-import { WagmiConfig, createClient } from "wagmi"
-import { getDefaultProvider } from "ethers"
+import { WagmiConfig, createClient, chain, configureChains } from "wagmi"
+import { publicProvider } from "wagmi/providers/public"
 import "../styles/globals.css"
 import { useEffect } from "react"
 
@@ -16,6 +16,7 @@ export type IFormDataContext = {
     recoveryAddress?: string
     inactivityPeriodInDays?: number
     passwordHash?: string
+    legalDocumentsHash?: string
     firstName?: string
     lastName?: string
     dateOfBirth?: string
@@ -60,12 +61,15 @@ function MyApp({ Component, pageProps }: AppProps) {
             </div>
         )
 
+    const connectors = getInstalledInjectedConnectors()
+
+    const { provider, webSocketProvider } = configureChains([chain.goerli], [publicProvider()])
+
     const client = createClient({
         autoConnect: true,
-        provider: getDefaultProvider(),
+        provider,
+        webSocketProvider,
     })
-
-    const connectors = getInstalledInjectedConnectors()
 
     return (
         <WagmiConfig client={client}>
