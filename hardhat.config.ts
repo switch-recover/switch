@@ -3,7 +3,9 @@ import "@nomicfoundation/hardhat-toolbox"
 import "@shardlabs/starknet-hardhat-plugin"
 
 const config: HardhatUserConfig = {
-    solidity: "0.8.9",
+    solidity: {
+        version: "0.8.9",
+    },
     networks: {
         "goerli-alpha": {
             url: "https://alpha4.starknet.io",
