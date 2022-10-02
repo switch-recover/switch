@@ -1,9 +1,26 @@
 import { ReviewContainer } from "components"
+import addresses from "contracts/deployments"
 import { FormDataContext, ISetContractContext } from "pages/_app"
 import { useContext } from "react"
+import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from "wagmi"
+const { abi: RecoveryContractFactoryABI } = require("contracts/abis/RecoveryContractFactory.json")
 
 const Review = () => {
     const { context } = useContext(FormDataContext) as ISetContractContext
+
+    const { config } = usePrepareContractWrite({
+        addressOrName: addresses.L1RecoveryContractFactory,
+        contractInterface: RecoveryContractFactoryABI,
+        functionName: "deployTrustedAgentRecoveryContract",
+        args: [
+            context.legalDocumentsHash,
+            Math.round(((context.inactivityPeriodInDays ? context.inactivityPeriodInDays : -1) * 24 * 60 * 60) / 17), // temporary calculation
+        ],
+    })
+    const { data, write } = useContractWrite(config)
+    const { isSuccess } = useWaitForTransaction({
+        hash: data?.hash,
+    })
 
     const pathObject = [
         { name: "Home", path: "/" },
@@ -49,7 +66,15 @@ const Review = () => {
         },
     ]
 
-    return <ReviewContainer pathObject={pathObject} displayFields={displayFields} />
+    return (
+        <ReviewContainer
+            pathObject={pathObject}
+            displayFields={displayFields}
+            data={data}
+            write={write}
+            isSuccess={isSuccess}
+        />
+    )
 }
 
 export default Review
