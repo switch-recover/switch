@@ -6,11 +6,11 @@ import Image from "next/image"
 
 const EthConnector = () => {
     const [connected, setConnected] = useState(false)
-    const { isConnected } = useAccount()
+    const { address } = useAccount()
 
     useEffect(() => {
-        setConnected(isConnected)
-    }, [isConnected])
+        setConnected(!!address)
+    }, [address])
 
     const { connect } = useConnect({
         connector: new InjectedConnector({
