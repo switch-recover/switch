@@ -1,0 +1,13 @@
+const addresses = {
+    Mode: "testing",
+    Deployer: "0xeb73F28e71816d32e09C5fDd1B1C2382a2e782a6",
+    L1RecoveryContractFactory: "0xA75A1979bfCb11909A9836d3d4B04C453444A589",
+    L1StarknetCoreContract: "0x26Ecce343886b9D7A83686d60B70bDC78Fa548cA",
+    L1GatewayContract: "0x31118341272bfd03438937500162eF38Ba21FCa9",
+    L2StorageProverContract: "0x07c1df420f36f0f23efd7e808805cc1c90a021a4917f9276aa0a12f05bca4db4",
+    L1FakeUSDC: "0x8A5289051d5C7fAD47Fa1E3d9548D36033d3EfEF",
+    L1FakeUNI: "0x61B875F82626B20e911D4d8675d2Bdf9f6706F63",
+    L1FakeWETH: "0xFcAa15294fFA4c3165aB8Ea198b757959143E63B",
+}
+
+export default addresses
