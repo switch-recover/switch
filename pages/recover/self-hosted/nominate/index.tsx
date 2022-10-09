@@ -152,7 +152,7 @@ const PeriodNotElapsed = () => {
                 <DisplayList fields={recoveryDetails} />
             </div>
             <div className="flex flex-col mx-8">
-                <Link href="/recover">
+                <Link href="/recover/details">
                     <a>
                         <Button label="← Go back" callback={() => {}} />
                     </a>
