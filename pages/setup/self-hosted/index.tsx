@@ -10,7 +10,7 @@ const SelfHostedRecovery = () => {
     return (
         <div className="flex flex-col w-screen h-screen bg-gray-200">
             <MenuBar />
-            <div className="flex w-full h-full">
+            <div className="flex w-full h-full overflow-scroll">
                 <SideBar />
                 <BodyLayout path={pathObject}>
                     <TitleDescription

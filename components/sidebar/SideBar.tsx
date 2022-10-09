@@ -40,12 +40,14 @@ const SideBar = () => {
                     UIContext.sideBarHidden ? "hidden" : ""
                 }`}
             >
-                <div className="flex items-center gap-8 cursor-pointer hover:opacity-60 active:opacity-40 select-none">
-                    <div className="flex w-6 h-6">
-                        <Image src="/book.png" width="24" height="24" alt="Documentation" />
+                <Link href="https://github.com/switch-recover">
+                    <div className="flex items-center gap-8 cursor-pointer hover:opacity-60 active:opacity-40 select-none">
+                        <div className="flex w-6 h-6">
+                            <Image src="/book.png" width="24" height="24" alt="Documentation" />
+                        </div>
+                        <span className="font-semibold text-sm">Documentation</span>
                     </div>
-                    <span className="font-semibold text-sm">Documentation</span>
-                </div>
+                </Link>
             </div>
             <div
                 className={`w-5 h-8 bg-gray-300 absolute right-0 top-9 flex justify-center items-center font-semibold text-gray-400 select-none cursor-pointer ${

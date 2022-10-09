@@ -42,7 +42,7 @@ const Connected = ({ disconnect }: any) => {
             <div className="flex items-center gap-3">
                 <div
                     className={`w-2 h-2 rounded-full ${
-                        hover ? "bg-red-500" : chain?.unsupported ? "bg-yellow-500" : "bg-green-500"
+                        hover ? "bg-red-500" : chain?.id !== 5 ? "bg-yellow-500" : "bg-green-500"
                     }`}
                 />
                 <div className="hidden sm:flex">
@@ -53,7 +53,7 @@ const Connected = ({ disconnect }: any) => {
                     <span className="text-center text-sm font-semibold w-24">
                         {hover ? "Disconnect" : address ? shortenAddress(address) : ""}
                     </span>
-                    <span className="text-xs">{chain?.unsupported ? "Switch to Goerli" : "Ethereum Goerli"}</span>
+                    <span className="text-xs">{chain?.id !== 5 ? "Switch to Goerli" : "Ethereum Goerli"}</span>
                 </div>
                 <div className="flex sm:hidden">
                     {hover ? (

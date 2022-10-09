@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { useRouter } from "next/router"
 import { RefObject } from "react"
 
 const NextPageButton = ({
@@ -8,8 +8,10 @@ const NextPageButton = ({
     nextPageRoute: string
     formRef: RefObject<HTMLFormElement> | null
 }) => {
+    const router = useRouter()
     const triggerSubmitForm = () => {
         if (formRef) formRef.current?.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }))
+        else router.push(nextPageRoute)
     }
 
     return (

@@ -3,7 +3,7 @@ import { FormEvent, useContext, useRef, useState } from "react"
 import { useRouter } from "next/router"
 import { TextFormField, NextPageButton } from "components"
 
-const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
+const RecoveryAddressForm = ({ nextPageRoute, mode }: { nextPageRoute: string; mode: "setup" | "recovery" }) => {
     const { context, setContext } = useContext(FormDataContext) as ISetContractContext
     const [address, setAddress] = useState<string>("")
     const router = useRouter()
@@ -16,7 +16,7 @@ const RecoveryAddressForm = ({ nextPageRoute }: { nextPageRoute: string }) => {
         }
         setContext({
             ...context,
-            recoveryAddress: address,
+            [mode === "setup" ? "recoveryAddress" : "targetRecoveryAddress"]: address,
         })
         router.push(nextPageRoute)
     }

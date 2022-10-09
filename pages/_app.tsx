@@ -23,6 +23,7 @@ export type IFormDataContext = {
     countryOfOrigin?: string
     legalDocumentType?: string
     legalDocumentNumber?: string
+    targetRecoveryAddress?: string
 }
 
 export enum recoveryOptions {

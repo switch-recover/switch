@@ -1,10 +1,10 @@
+import addresses from "contracts/deployments"
+import { ethers } from "ethers"
 import Image from "next/image"
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
-import { useAccount, useContractRead } from "wagmi"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite } from "wagmi"
 const { abi: GatewayContractABI } = require("contracts/abis/GatewayContract.json")
 const { abi: ERC20FakeABI } = require("contracts/abis/ERC20Fake.json")
-import addresses from "contracts/deployments"
-import { FormDataContext, ISetContractContext } from "pages/_app"
 
 export type assetProps = {
     asset: string
@@ -15,7 +15,7 @@ export type assetProps = {
     selected: boolean
 }
 
-const AssetSelector = ({
+const AssetApprover = ({
     assets,
     setAssets,
 }: {
@@ -53,21 +53,21 @@ const AssetEntry = ({
     assetData: assetProps
     toggleSelected: (asset: string) => void
 }) => {
-    const { context } = useContext(FormDataContext) as ISetContractContext
     const [approved, setApproved] = useState<boolean>(false)
+    const { address } = useAccount()
 
     const { data: recoveryAddress } = useContractRead({
         addressOrName: addresses.L1GatewayContract,
         contractInterface: GatewayContractABI,
         functionName: "eoaToRecoveryContract",
-        args: [context.targetRecoveryAddress],
+        args: [address],
     })
 
     const { data: allowance } = useContractRead({
         addressOrName: assetData.address,
         contractInterface: ERC20FakeABI,
         functionName: "allowance",
-        args: [context.targetRecoveryAddress, recoveryAddress],
+        args: [address, recoveryAddress],
     })
 
     useEffect(() => {
@@ -75,20 +75,62 @@ const AssetEntry = ({
         else setApproved(false)
     }, [allowance])
 
-    if (!approved) return <></>
+    const { config: setApprovalConfig } = usePrepareContractWrite({
+        addressOrName: assetData.address,
+        contractInterface: ERC20FakeABI,
+        functionName: "approve",
+        args: [recoveryAddress, ethers.constants.MaxUint256],
+    })
+
+    const { write: writeSetApproval } = useContractWrite(setApprovalConfig)
+
+    const { config: revokeApprovalConfig } = usePrepareContractWrite({
+        addressOrName: assetData.address,
+        contractInterface: ERC20FakeABI,
+        functionName: "approve",
+        args: [recoveryAddress, 0],
+    })
+
+    const { write: writeRevokeApproval } = useContractWrite(revokeApprovalConfig)
 
     return (
         <div
-            className="flex items-center w-full justify-between p-2 rounded-lg cursor-pointer hover:bg-gray-100 active:bg-gray-200 select-none pr-4"
+            className="flex items-center w-full justify-between p-2 rounded-lgselect-none pr-4"
             onClick={() => toggleSelected(assetData.asset)}
         >
             <div className="flex items-center gap-3">
                 <Image src={assetData.imageUrl} height="32" width="32" alt={assetData.asset} className="rounded-full" />
                 <span className="text-sm">{`${assetData.amount} ${assetData.symbol}`}</span>
             </div>
-            {assetData.selected ? <Image src="/select.png" height="16" width="16" alt="Select" /> : <></>}
+            {approved ? (
+                <RevokeButton label="Revoke" callback={() => writeRevokeApproval?.()}></RevokeButton>
+            ) : (
+                <ApproveButton label="Approve" callback={() => writeSetApproval?.()}></ApproveButton>
+            )}
         </div>
     )
 }
 
-export default AssetSelector
+const ApproveButton = ({ label, callback }: { label: string; callback: () => void }) => {
+    return (
+        <div
+            className={`flex justify-center items-center text-sm w-20 h-8 p-1 rounded bg-theme-lighter hover:bg-theme-light active:bg-theme cursor-pointer select-none`}
+            onClick={callback}
+        >
+            <span className="font-semibold">{label}</span>
+        </div>
+    )
+}
+
+const RevokeButton = ({ label, callback }: { label: string; callback: () => void }) => {
+    return (
+        <div
+            className={`flex justify-center items-center text-sm w-20 h-8 p-1 rounded bg-red-100 hover:bg-red-200 active:bg-red-100 cursor-pointer select-none`}
+            onClick={callback}
+        >
+            <span className="font-semibold">{label}</span>
+        </div>
+    )
+}
+
+export default AssetApprover

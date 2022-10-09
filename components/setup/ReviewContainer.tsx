@@ -50,7 +50,7 @@ const ReviewContainer = ({
     return (
         <div className="flex flex-col w-screen h-screen bg-gray-200">
             <MenuBar />
-            <div className="flex w-full h-full">
+            <div className="flex w-full h-full overflow-scroll">
                 <SideBar />
                 <BodyLayout path={pathObject}>
                     <TitleDescription
@@ -59,11 +59,9 @@ const ReviewContainer = ({
                     />
                     <DisplayList fields={displayFields} />
                     <div className="px-2 flex flex-col gap-3">
-                        <Button label="Deploy recovery service" callback={() => write?.()} />
+                        {/* <Button label="Deploy recovery service" callback={() => write?.()} /> */}
+                        <Button label="Currently disabled" callback={() => {}} />
                     </div>
-                    {/* <button onClick={notify}>Notify!</button>
-                    <button onClick={dismiss}>Dismiss!</button>
-                    <ToastContainer position="bottom-right" ref={toastRef} /> */}
                 </BodyLayout>
             </div>
         </div>

@@ -1,12 +1,14 @@
-import { BodyLayout, MenuBar, TitleDescription, SideBar, DisplayList, NextPageButton } from "components"
-import { useCallback, useEffect, useState } from "react"
-
-import { recoveryOptions } from "pages/_app"
+import { BodyLayout, MenuBar, TitleDescription, SideBar, DisplayList, NextPageButton, ActivePlan } from "components"
+import { useCallback, useContext, useEffect } from "react"
+import { FormDataContext, ISetContractContext, recoveryOptions } from "pages/_app"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { useContractRead } from "wagmi"
+import addresses from "contracts/deployments"
+const { abi: GatewayContractABI } = require("contracts/abis/GatewayContract.json")
 
 const RecoveryDetails = () => {
-    const [plan, setPlan] = useState<recoveryOptions>(recoveryOptions.TrustedAgent)
+    const { context } = useContext(FormDataContext) as ISetContractContext
     const router = useRouter()
 
     const pathObject = [
@@ -15,15 +17,31 @@ const RecoveryDetails = () => {
         { name: "Recovery plan details", path: "/recover/details" },
     ]
 
+    const { data: targetRecoveryAddress } = useContractRead({
+        addressOrName: addresses.L1GatewayContract,
+        contractInterface: GatewayContractABI,
+        functionName: "eoaToRecoveryContract",
+        args: [context.targetRecoveryAddress],
+    })
+
+    const { data: contractType } = useContractRead({
+        addressOrName: addresses.L1GatewayContract,
+        contractInterface: GatewayContractABI,
+        functionName: "eoaToContractType",
+        args: [context.targetRecoveryAddress],
+    })
+
+    const contractTypeIndex = Number(contractType) as 0 | 1 | 2
+
+    const routerMap = {
+        0: "/recover/self-hosted/nominate",
+        1: "/recover/self-hosted/password",
+        2: "/recover/trusted-agent",
+    }
+
     const handleKeyPress = useCallback((e: KeyboardEvent) => {
         if (e.key === "Enter") {
-            const routerMap = {
-                0: "/recover/self-hosted/nominate",
-                1: "/recover/self-hosted/password",
-                2: "/recover/trusted-agent",
-                3: "/",
-            }
-            router.push(routerMap[plan])
+            router.push(routerMap[contractTypeIndex])
         }
     }, [])
 
@@ -34,157 +52,52 @@ const RecoveryDetails = () => {
         }
     }, [handleKeyPress])
 
-    // useEffect(() => {
-    //     // Retrieve plan details based on wallet address
-    // }, [])
-
-    const renderPlanDetails = () => {
-        switch (plan) {
-            case recoveryOptions.None:
-                return <NoRecovery></NoRecovery>
-            case recoveryOptions.SelfHosted:
-                return <SelfHostedNominate></SelfHostedNominate>
-            case recoveryOptions.SelfHostedPassword:
-                return <SelfHostedPassword></SelfHostedPassword>
-            case recoveryOptions.TrustedAgent:
-                return <TrustedAgent></TrustedAgent>
-            default:
-                return <Loading></Loading>
-        }
+    const contractTypeText = {
+        0: "It seems you previously setup self hosted account recovery and nominated the following address as the recipient if it ever became lost. Please check that the details below are correct.",
+        1: "It seems you previously setup self hosted account recovery and nominated the following address as the recipient if it ever became lost. Please check that the details below are correct.",
+        2: "It seems you previously setup self hosted account recovery and nominated a Trusted Agent to manage custody of your assets. Please check that the details below are correct.",
     }
 
     return (
         <div className="flex flex-col w-screen h-screen bg-gray-200">
             <MenuBar />
-            <div className="flex w-full h-full relative">
+            <div className="flex w-full h-full relative overflow-scroll">
                 <SideBar />
-                <BodyLayout path={pathObject}>{renderPlanDetails()}</BodyLayout>
+                <BodyLayout path={pathObject}>
+                    <TitleDescription
+                        title={targetRecoveryAddress ? "Recovery plan" : "Sorry, we couldn’t find your details"}
+                        description={
+                            targetRecoveryAddress
+                                ? contractTypeText[contractTypeIndex]
+                                : "It doesn’t seem as though the wallet address you provided has any active recovery plans associated with it. Please check you have entered the correct wallet address."
+                        }
+                    />
+                    {targetRecoveryAddress ? (
+                        <div className="mx-6 flex flex-col gap-2">
+                            <ActivePlan recoveryAddress={String(targetRecoveryAddress)} />
+                            <div className="mx-2">
+                                <NextPageButton nextPageRoute="/recover/self-hosted/nominate" formRef={null} />
+                            </div>
+                        </div>
+                    ) : (
+                        <NoActivePlan />
+                    )}
+                </BodyLayout>
             </div>
         </div>
     )
 }
 
-const NoRecovery = () => {
+const NoActivePlan = () => {
     return (
-        <>
-            <TitleDescription
-                title="Sorry, we couldn’t find your details"
-                description="It doesn’t seem as though the wallet address you provided has any active recovery plans associated with it. Please check you have entered the correct wallet address."
-            />
-            <Link href="/recover">
-                <div
-                    className={`flex justify-center text-sm mx-8 p-3 rounded-xl bg-theme-lighter hover:bg-theme-light active:bg-theme cursor-pointer select-none font-semibold`}
-                >
-                    ← Go back
-                </div>
-            </Link>
-        </>
-    )
-}
-
-const SelfHostedNominate = () => {
-    // Temporary - to replace with actual details
-    const recoveryDetails = [
-        {
-            label: "Mode",
-            value: "Self hosted recovery",
-        },
-        {
-            label: "Setup",
-            value: "Nominate a recovery address",
-        },
-        {
-            label: "Recovery address",
-            value: "0x123...456",
-        },
-        {
-            label: "Inactivity period",
-            value: "1 year (10 months, 21 days remaining)",
-        },
-    ]
-
-    return (
-        <>
-            <TitleDescription
-                title="We’ve found your recovery details!"
-                description="It seems you previously setup self hosted account recovery and nominated the following address as the recipient if it ever became lost. Please check that the details below are correct."
-            />
-            <div className="flex flex-col">
-                <DisplayList fields={recoveryDetails} />
-                <NextPageButton nextPageRoute="/recover/self-hosted/nominate" formRef={null} />
+        <Link href="/recover">
+            <div
+                className={`flex justify-center text-sm mx-8 p-3 rounded-xl bg-theme-lighter hover:bg-theme-light active:bg-theme cursor-pointer select-none font-semibold`}
+            >
+                ← Go back
             </div>
-        </>
+        </Link>
     )
-}
-
-const SelfHostedPassword = () => {
-    // Temporary - to replace with actual details
-    const recoveryDetails = [
-        {
-            label: "Mode",
-            value: "Self hosted recovery",
-        },
-        {
-            label: "Setup",
-            value: "Password",
-        },
-        {
-            label: "Recovery address",
-            value: "0x123...456",
-        },
-        {
-            label: "Inactivity period",
-            value: "1 year (10 months, 21 days remaining)",
-        },
-    ]
-
-    return (
-        <>
-            <TitleDescription
-                title="We’ve found your recovery details!"
-                description="It seems you previously setup self hosted account recovery and nominated the following address as the recipient if it ever became lost. Please check that the details below are correct."
-            />
-            <div className="flex flex-col">
-                <DisplayList fields={recoveryDetails} />
-                <NextPageButton nextPageRoute="/recover/self-hosted/password" formRef={null} />
-            </div>
-        </>
-    )
-}
-
-const TrustedAgent = () => {
-    // Temporary - to replace with actual details
-    const recoveryDetails = [
-        {
-            label: "Mode",
-            value: "Trusted Agent recovery",
-        },
-        {
-            label: "Recovery address",
-            value: "0x123...456",
-        },
-        {
-            label: "Inactivity period",
-            value: "1 year (10 months, 21 days remaining)",
-        },
-    ]
-
-    return (
-        <>
-            <TitleDescription
-                title="We’ve found your recovery details!"
-                description="It seems you previously setup self hosted account recovery and nominated a Trusted Agent to manage custody of your assets. Please check that the details below are correct."
-            />
-            <div className="flex flex-col">
-                <DisplayList fields={recoveryDetails} />
-                <NextPageButton nextPageRoute="/recover/trusted-agent" formRef={null} />
-            </div>
-        </>
-    )
-}
-
-const Loading = () => {
-    return <></>
 }
 
 export default RecoveryDetails

@@ -11,14 +11,14 @@ const NominateRecoveryAddress = () => {
     return (
         <div className="flex flex-col w-screen h-screen bg-gray-200">
             <MenuBar />
-            <div className="flex w-full h-full">
+            <div className="flex w-full h-full overflow-scroll">
                 <SideBar />
                 <BodyLayout path={pathObject}>
                     <TitleDescription
                         title="Nominate a recovery address"
                         description="This is the address where you assets will be sent if you lose your account. You can change this address later, but it will cost you some gas fees to do so."
                     />
-                    <RecoveryAddressForm nextPageRoute="/setup/self-hosted/nominate/set-inactivity" />
+                    <RecoveryAddressForm nextPageRoute="/setup/self-hosted/nominate/set-inactivity" mode="setup" />
                 </BodyLayout>
             </div>
         </div>
