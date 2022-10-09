@@ -3,7 +3,7 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     images: {
-        domains: ["s2.coinmarketcap.com"],
+        domains: ["s2.coinmarketcap.com", "www.covalenthq.com", "logos.covalenthq.com"],
     },
     async redirects() {
         return [
