@@ -1,18 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
+    reactStrictMode: false,
     swcMinify: true,
     images: {
         domains: ["s2.coinmarketcap.com", "www.covalenthq.com", "logos.covalenthq.com"],
-    },
-    async redirects() {
-        return [
-            {
-                source: "/welcome",
-                destination: "/",
-                permanent: true,
-            },
-        ]
     },
 }
 
